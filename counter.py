@@ -2,19 +2,38 @@ import tkinter as tk
 import re
 
 def calcu(e):
+    txt = str(e.widget.configure().get("text")[-1])
+    if txt == '-0' or txt == '00':
+        varEntry1.set('0')
+    print(varEntry1.get())
+    # a = re.search('^-|\d',str)
+    # if a:
+    #     pass
     txt=str(e.widget.configure().get("text")[-1])
+
     if (txt=="CE") or (txt == "C"):
         varEntry1.set("0")
+        return
     elif txt == "退格":
         if varEntry1.get() == '0':
             return
         elif len(varEntry1.get()) == 0:
             varEntry1.set('0')
+            return
         else:
             varEntry1.set(varEntry1.get()[0:len(varEntry1.get())-1])
+            return
 
 
     elif txt == "=":
+        btnEqual_click()
+    elif txt == "+":
+        btnEqual_click()
+    elif txt == "-":
+        btnEqual_click()
+    elif txt == "*":
+        btnEqual_click()
+    elif txt == "/":
         btnEqual_click()
     elif txt == '+/-':
         var = varEntry1.get()
@@ -29,7 +48,14 @@ def calcu(e):
                 varEntry1.set("-"+var)
     else:
         varEntry1.set(varEntry1.get()+txt)
-    pass
+    if varEntry1.get() == '00' or varEntry1.get() == '-0':
+        varEntry1.set('0')
+    elif re.search('^0',varEntry1.get()):
+        varEntry1.set(txt)
+
+
+
+
 
 
 def btnEqual_click():
