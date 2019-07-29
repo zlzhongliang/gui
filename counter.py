@@ -1,11 +1,19 @@
 import tkinter as tk
+import re
 
 def calcu(e):
     txt=str(e.widget.configure().get("text")[-1])
     if (txt=="CE") or (txt == "C"):
-        varEntry1.set("")
+        varEntry1.set("0")
     elif txt == "退格":
-        varEntry1.set(varEntry1.get()[0:len(varEntry1.get())-1])
+        if varEntry1.get() == '0':
+            return
+        elif len(varEntry1.get()) == 0:
+            varEntry1.set('0')
+        else:
+            varEntry1.set(varEntry1.get()[0:len(varEntry1.get())-1])
+
+
     elif txt == "=":
         btnEqual_click()
     elif txt == '+/-':
@@ -38,6 +46,7 @@ forml.geometry('380x536+500+100')
 # 第一部分 文本框
 # 给entry绑定变量
 varEntry1= tk.StringVar()
+varEntry1.set('0')
 entry1 = tk.Label(forml,fg="black",bg="white",font=("Arial",25),textvariable=varEntry1)
 # 使用grid作为外部布局，第一部分在第一行第一列
 entry1.grid(row=0,column=0,sticky=tk.EW,ipady=20)  # sticky 表单填充
