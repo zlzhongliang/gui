@@ -1,66 +1,77 @@
 import tkinter as tk
 import re
+global a
+a = '0'
 
 def calcu(e):
+    global a
     txt = str(e.widget.configure().get("text")[-1])
-    if txt == '-0' or txt == '00':
+    flag = varEntry1.get()+txt
+    print(flag)
+    if flag == '00':
         varEntry1.set('0')
-    print(varEntry1.get())
-    # a = re.search('^-|\d',str)
-    # if a:
-    #     pass
-    txt=str(e.widget.configure().get("text")[-1])
-
+        return
+    elif re.search('^0\d',flag):
+        varEntry1.set(flag[1:])
+        return
     if (txt=="CE") or (txt == "C"):
         varEntry1.set("0")
+        a = '0'
         return
     elif txt == "退格":
-        if varEntry1.get() == '0':
-            return
-        elif len(varEntry1.get()) == 0:
+        if len(varEntry1.get()) <= 1:
             varEntry1.set('0')
             return
         else:
-            varEntry1.set(varEntry1.get()[0:len(varEntry1.get())-1])
+            varEntry1.set(varEntry1.get()[:(len(varEntry1.get())-1)])
             return
-
-
-    elif txt == "=":
-        btnEqual_click()
-    elif txt == "+":
-        btnEqual_click()
-    elif txt == "-":
-        btnEqual_click()
-    elif txt == "*":
-        btnEqual_click()
-    elif txt == "/":
-        btnEqual_click()
     elif txt == '+/-':
         var = varEntry1.get()
-        if var == "":
+        if var == '0':
             varEntry1.set('-')
+            return
+        elif var == '-':
+            varEntry1.set('0')
+            return
+        elif var[0] == "-":
+            varEntry1.set(varEntry1.get()[1:])
+            return
         else:
-            flag = var[0]
-            if flag == "-":
-                varEntry1.set(varEntry1.get()[1:])
-            else:
-                varEntry1.set("")
-                varEntry1.set("-"+var)
+            varEntry1.set("")
+            varEntry1.set("-"+var)
+            return
+    elif txt == "=":
+        if a == '0':
+            a = varEntry1.get()
+            return
+        else:
+            btnEqual_click()
+    elif txt == "+":
+        a = a + '+'
+        btnEqual_click()
+    elif txt == "-":
+        a = a + '-'
+        btnEqual_click()
+    elif txt == "*":
+        a = a + '*'
+        btnEqual_click()
+    elif txt == "/":
+        a = a + '/'
+        btnEqual_click()
+
     else:
         varEntry1.set(varEntry1.get()+txt)
-    if varEntry1.get() == '00' or varEntry1.get() == '-0':
-        varEntry1.set('0')
-    elif re.search('^0',varEntry1.get()):
-        varEntry1.set(txt)
-
 
 
 
 
 
 def btnEqual_click():
-    result = eval(varEntry1.get())
-    varEntry1.set(result)
+    global a
+    b = a+varEntry1.get()
+    result = eval(b)
+    a = result
+    varEntry1.set('0')
 
 # 创建一个窗口
 forml = tk.Tk()
