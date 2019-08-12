@@ -10,7 +10,8 @@ window.move(400,200)
 label = QLabel(window)
 label.setText("hello world")
 label.move(200,200)
-
+window2 = QWidget()
+window2.show()
 window.show()
 
 sys.exit(app.exec_())
